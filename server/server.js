@@ -30,6 +30,18 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
+// Snanity check
+
+//Get employee
+app.get('/', (req, res) => {
+    let sql = 'SELECT * FROM CONSUMELOG';
+    let query = db.query(sql, (err, results) => {
+        if(err) throw err;
+        console.log(results);
+        res.send(results);
+    });
+});
+
 /*+++++++++++++++++++++++++++++++++++++++
             EMPLOYEE
 +++++++++++++++++++++++++++++++++++++++++*/
@@ -133,6 +145,7 @@ app.post('/api/sales', (req, res) => {
 });
 
 
-app.listen('3001', () => {
-    console.log('Server started on port 3001');
-});
+const port = process.env.PORT || 3001;
+app.listen(port,()=>{
+    console.log(`Server Running at ${port}`)
+})
