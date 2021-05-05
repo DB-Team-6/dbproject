@@ -91,7 +91,7 @@ app.post('/api/employeeupdate', (req, res) => {
 +++++++++++++++++++++++++++++++++++++++++*/
 
 app.post('/api/estimate', (req, res) => {
-    let sql = `SELECT t1.ingreName,consumed,supplied,(consumed+supplied)/2 AS Estimate FROM
+    let sql = `SELECT t1.ingreName AS ingredient,consumed,supplied,(consumed+supplied)/2 AS estimate FROM
     (SELECT C.ingreID,ingreName,SUM(quantity) AS consumed FROM CONSUMELOG AS C JOIN INGREDIENTS AS I ON C.ingreID = I.ingreID WHERE cdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t1
     INNER JOIN
     (SELECT S.ingreID,ingreName,SUM(quantity) AS supplied FROM SUPPLYLOG AS S JOIN INGREDIENTS AS I ON S.ingreID = I.ingreID WHERE sdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t2
