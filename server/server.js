@@ -30,6 +30,18 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
+// Snanity check
+
+//Get employee
+app.get('/', (req, res) => {
+    let sql = 'SELECT * FROM CONSUMELOG';
+    let query = db.query(sql, (err, results) => {
+        if(err) throw err;
+        console.log(results);
+        res.send(results);
+    });
+});
+
 /*+++++++++++++++++++++++++++++++++++++++
             EMPLOYEE
 +++++++++++++++++++++++++++++++++++++++++*/
