@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -28,12 +29,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.static('client/build'))
 
 
 // Snanity check
 
-//Get employee
-app.get('/', (req, res) => {
+//Test
+app.get('/api/test', (req, res) => {
     let sql = 'SELECT * FROM CONSUMELOG';
     let query = db.query(sql, (err, results) => {
         if(err) throw err;
