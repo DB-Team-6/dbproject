@@ -37,7 +37,7 @@ export const fetchWeeklyData2 = (range) => {
         "enddate": range[1]
     }
     try {
-        const url = `${baseUrl}/estimate/`;
+        const url = `/api/estimate/`;
         const data = axios.post(url, request)
             .then(response => {
                 return response.data;
