@@ -1,0 +1,40 @@
+{
+    "January": {
+        "Peppers":{
+            "w1": {
+                "consumed": 456,
+                "supplied": 300
+            },
+            "w2": {
+                "consumed": 556,
+                "supplied": 600
+            },
+            "w3": {
+                "consumed": 406,
+                "supplied": 590
+            },
+            "w4": {
+                "consumed": 456,
+                "supplied": 500
+            }
+        },
+        "Sausages":{
+            "w1": {
+                "consumed": 456,
+                "supplied": 300
+            },
+            "w2": {
+                "consumed": 556,
+                "supplied": 600
+            },
+            "w3": {
+                "consumed": 406,
+                "supplied": 590
+            },
+            "w4": {
+                "consumed": 456,
+                "supplied": 500
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+[
+    {
+        "ingredient": "Peppers",
+        "consumed": 656,
+        "supplied": 700,
+        "estimate": 670
+    },
+    {
+        "ingredient": "Sausages",
+        "consumed": 656,
+        "supplied": 700,
+        "estimate": 670
+    },
+    {
+        "ingredient": "Tomato",
+        "consumed": 506,
+        "supplied": 690,
+        "estimate": 550
+    },
+    {
+        "ingredient": "Onions",
+        "consumed": 556,
+        "supplied": 600,
+        "estimate": 570
+    }
+]
