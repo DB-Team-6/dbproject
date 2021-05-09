@@ -1,0 +1,30 @@
+{
+    "month": "January",
+    "week": 1,
+    "ingredients": [
+        {
+            "item": "Peppers",
+            "consumed": 456,
+            "supplied": 500,
+            "expected_mean": 470
+        },
+        {
+            "item": "Sausages",
+            "consumed": 556,
+            "supplied": 600,
+            "expected_mean": 570
+        },
+        {
+            "item": "Tomato",
+            "consumed": 406,
+            "supplied": 590,
+            "expected_mean": 400
+        },
+        {
+            "item": "Onions",
+            "consumed": 356,
+            "supplied": 400,
+            "expected_mean": 370
+        }
+    ]
+}
