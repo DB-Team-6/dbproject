@@ -48,55 +48,69 @@ app.get('/api/test', (req, res) => {
             EMPLOYEE
 +++++++++++++++++++++++++++++++++++++++++*/
 
-// Add employee
-app.post('/api/addemployee', (req, res) => {
-    let sql = 'INSERT INTO EMPLOYEE SET ?';
+//            Login
+app.post('/api/login', (req, res) => {
+    password = req.cookies.auth ? req.cookies.auth : req.body.accesscode;
+    let sql = `SELECT * FROM MANAGER WHERE accesscode='${password}';`;
     console.log(req.body)
-    let query = db.query(sql, req.body, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('Employee added...');
-    });
-});
-
-//Get employee
-app.get('/api/getemployee', (req, res) => {
-    let sql = 'SELECT * FROM EMPLOYEE';
     let query = db.query(sql, (err, results) => {
         if(err) throw err;
+        if(results.length!==0){
+            res.cookie('auth', password).status(200).json({
+                loginSuccess: true
+            })
+        }else{
+            res.cookie('auth', "").status(200).json({
+                loginSuccess: false
+            })
+        }
         console.log(results);
-        res.send(results);
+        // res.send(results);
     });
 });
 
-//Get employees
-app.get('/api/getemployee/:id', (req, res) => {
-    let sql = `SELECT * FROM EMPLOYEE WHERE empID = ${req.params.id}`;
-    let query = db.query(sql, (err, results) => {
-        if(err) throw err;
-        console.log(results);
-        res.send(results);
-    });
-});
-
-//Get employees by ID
-app.get('/api/getemployee/:id', (req, res) => {
-    let sql = `SELECT * FROM EMPLOYEE WHERE empID = ${req.params.id}`;
-    let query = db.query(sql, (err, results) => {
-        if(err) throw err;
-        console.log(results);
-        res.send(results);
-    });
-});
-
-//Update employee by ID
-app.post('/api/employeeupdate', (req, res) => {
-    let sql = `UPDATE EMPLOYEE SET ? WHERE empID= ${req.body.empID}`;
+//            Logout
+app.get('/api/logout', (req, res) => {
+    password = "";
     console.log(req.body)
-    let query = db.query(sql, req.body, (err, result) => {
+    res.cookie('auth', password).status(200).json({
+        logoutSuccess: true
+    })
+});
+
+
+
+//            Sales
+
+
+app.post('/api/empsales', (req, res) => {
+    let sql = `SELECT firstName,SUM(quantity) AS sales 
+                FROM 
+                SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID JOIN EMPLOYEE AS E ON S.empID=E.empID 
+                WHERE
+                saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY E.empID;`;
+    console.log(req.body)
+    let query = db.query(sql, (err, results) => {
         if(err) throw err;
-        console.log(result);
-        res.send('Employee updated...');
+        console.log("Success!");
+        res.send(results);
+    });
+});
+
+//            Profit
+
+
+app.post('/api/empprofit', (req, res) => {
+    let sql = `SELECT firstName,SUM((cost*quantity)-(price*quantity)) AS profit 
+                FROM
+                SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID JOIN EMPLOYEE AS E ON S.empID=E.empID 
+                WHERE
+                saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY E.empID;`;
+    console.log(req.body)
+    let query = db.query(sql, (err, results) => {
+        if(err) throw err;
+        console.log("Success!");
+        res.send(results);
     });
 });
 
@@ -105,11 +119,19 @@ app.post('/api/employeeupdate', (req, res) => {
 +++++++++++++++++++++++++++++++++++++++++*/
 
 app.post('/api/estimate', (req, res) => {
-    let sql = `SELECT t1.ingreName AS ingredient,consumed,supplied,(consumed+supplied)/2 AS estimate FROM
-    (SELECT C.ingreID,ingreName,SUM(quantity) AS consumed FROM CONSUMELOG AS C JOIN INGREDIENTS AS I ON C.ingreID = I.ingreID WHERE cdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t1
-    INNER JOIN
-    (SELECT S.ingreID,ingreName,SUM(quantity) AS supplied FROM SUPPLYLOG AS S JOIN INGREDIENTS AS I ON S.ingreID = I.ingreID WHERE sdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t2
-    ON t1.ingreID=t2.ingreID`;
+    let sql = `SELECT t1.ingreName AS ingredient,consumed,supplied,(consumed+supplied)/2 AS estimate 
+                FROM
+                    (SELECT C.ingreID,ingreName,SUM(quantity) AS consumed 
+                    FROM CONSUMELOG AS C JOIN INGREDIENTS AS I ON C.ingreID = I.ingreID 
+                    WHERE 
+                    cdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t1
+                INNER JOIN
+                    (SELECT S.ingreID,ingreName,SUM(quantity) AS supplied 
+                    FROM 
+                    SUPPLYLOG AS S JOIN INGREDIENTS AS I ON S.ingreID = I.ingreID 
+                    WHERE 
+                    sdate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY I.ingreID) t2
+                ON t1.ingreID=t2.ingreID`;
     console.log(req.body)
     let query = db.query(sql, (err, results) => {
         if(err) throw err;
@@ -123,7 +145,11 @@ app.post('/api/estimate', (req, res) => {
 +++++++++++++++++++++++++++++++++++++++++*/
 
 app.post('/api/profit', (req, res) => {
-    let sql = `SELECT pizzaName,SUM((cost*quantity)-(price*quantity)) AS profit FROM SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID WHERE saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY P.pizzaID`;
+    let sql = `SELECT pizzaName,SUM((cost*quantity)-(price*quantity)) AS profit 
+                FROM 
+                SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID 
+                WHERE 
+                saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY P.pizzaID`;
     console.log(req.body)
     let query = db.query(sql, (err, results) => {
         if(err) throw err;
@@ -137,7 +163,11 @@ app.post('/api/profit', (req, res) => {
 +++++++++++++++++++++++++++++++++++++++++*/
 
 app.post('/api/sales', (req, res) => {
-    let sql = `SELECT pizzaName,SUM(quantity) AS sold FROM SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID WHERE saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY P.pizzaID`;
+    let sql = `SELECT pizzaName,SUM(quantity) AS sold 
+                FROM 
+                SALES AS S JOIN PIZZA AS P ON S.pizzaID=P.pizzaID 
+                WHERE 
+                saledate BETWEEN '${req.body.startdate}' AND '${req.body.enddate}' GROUP BY P.pizzaID`;
     console.log(req.body)
     let query = db.query(sql, (err, results) => {
         if(err) throw err;

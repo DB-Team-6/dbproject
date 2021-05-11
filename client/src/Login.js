@@ -87,6 +87,11 @@ export default function Login() {
             console.log(values.password)
             const response = await loginToApp(values.password);
             console.log(response)
+            if (response){
+                window.location.href = "/"
+            }else{
+                window.location.href = "/login"
+            }
         }
     }
 

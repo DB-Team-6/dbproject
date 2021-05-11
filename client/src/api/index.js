@@ -50,24 +50,31 @@ export const fetchWeeklyData2 = (range) => {
 
 export const loginToApp = (password) => {
     const request = { 
-        "password": password 
+        "accesscode": password 
     }
     try {
-        const url = `${localUrl}/login.json`;
-        const data = axios.get(url, request)
+        const url = `/api/login`;
+        const data = axios.post(url, request)
             .then(response => {
-                if ((response.data.password) === password){
-                    console.log((response))
-                    return "Access Granted";
+                if (response.data.loginSuccess === true){
+                    console.log(response)
+                    return true;
                 }
                 else{
-                    return "Access Denied"
+                    axios.get("/api/logout")
+                    return false;
                 }
             })
         return data
     } catch (error) {
         console.log(error)
     }
+}
+
+export const logoutFromApp = () => {
+    axios.get("/api/logout").then(response => {        
+        window.location.href = "/login"
+    })
 }
 
 
