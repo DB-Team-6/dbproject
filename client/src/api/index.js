@@ -3,8 +3,6 @@ import axios from 'axios';
 const localUrl = 'http://localhost:3000'
 const baseUrl = 'https://db-team-6-test.herokuapp.com/api'
 
-
-
 export const fetchMonthlyProfit = () => {
     try {
         const data = axios.get(`${localUrl}/monthlySales.json`)
@@ -50,19 +48,14 @@ export const fetchWeeklyData2 = (range) => {
 
 export const loginToApp = (password) => {
     const request = { 
-        "password": password 
+        "accesscode": password 
     }
     try {
-        const url = `${localUrl}/login.json`;
-        const data = axios.get(url, request)
+        const url = `/api/login/`
+        const localurl = `${localUrl}/login.json`;
+        const data = axios.get(localurl, request)
             .then(response => {
-                if ((response.data.password) === password){
-                    console.log((response))
-                    return "Access Granted";
-                }
-                else{
-                    return "Access Denied"
-                }
+                    return response.data;
             })
         return data
     } catch (error) {

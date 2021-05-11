@@ -1,9 +1,7 @@
 import React from 'react';
 import './App.css';
 import { fetchMonthlyProfit, fetchWeeklyData, fetchWeeklyData2 } from './api';
-import { Paper, Tab, Tabs } from '@material-ui/core';
-import { LineChart, MonthPicker } from './components';
-import ProfitAnalysis from './pages/ProfitAnalysis';
+import { Container, Grow, makeStyles } from '@material-ui/core';
 import WeeklyAnalysis from './pages/WeeklyAnalysis';
 import styles from './App.module.css';
 import Typography from '@material-ui/core/Typography';
@@ -42,7 +40,7 @@ class Home extends React.Component {
         if (month && week) {
             const fetchedData = await fetchWeeklyData(month, week);
             //this.setState({ weeklyData: fetchedData, month: month, week: week })
-        
+
             let enabledItemsObject = {};
             fetchedData.map((d, i) => {
                 if ([0, 1, 2].includes(i)) {
@@ -84,7 +82,7 @@ class Home extends React.Component {
         })
     }
 
-    handleSubmit = async(event) =>{
+    handleSubmit = async (event) => {
         event.preventDefault();
 
         const { dateSelection } = this.state;
@@ -108,77 +106,92 @@ class Home extends React.Component {
                 enabledItemsObject: enabledItemsObject,
                 chartedList: fetchedData.filter(d => enabledItemsObject[d.ingredient] === true)
             })
-            
-        }
 
+        }
         
     }
-
-    handleTabChange = (e, newValue) => this.setState({ tabSelected: newValue })
     render() {
-
-        const { tabSelected, monthlyProfit } = this.state
         return (
-            <div>
-                <Paper square>
-                    <Tabs
-                        value={tabSelected}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        onChange={this.handleTabChange}
-                        aria-label="disabled tabs example"
-                    >
-                        <Tab label="Profit Analysis" {...a11yProps(0)} />
-                        <Tab label="Weekly Analysis" {...a11yProps(1)} />
-                    </Tabs>
-                </Paper>
-                <TabPanel value={tabSelected} index={0}>
-                    <ProfitAnalysis monthlyProfit={monthlyProfit} />
-                </TabPanel>
-                <TabPanel value={tabSelected} index={1}>
+            <Grow in>
+                <Container >
                     <WeeklyAnalysis handleMonthChange={this.handleMonthChange}
                         handleItemCheck={this.handleItemCheck}
                         handleDateChange={this.handleDateChange}
                         handleSubmit={this.handleSubmit}
                         {...this.state} />
-                </TabPanel>
-            </div>
+                </Container>
+            </Grow>
         )
     }
-}
 
+}
 export default Home;
 
-function a11yProps(index) {
-    return {
-        id: `scrollable-prevent-tab-${index}`,
-        'aria-controls': `scrollable-prevent-tabpanel-${index}`,
-    };
-}
+//     handleTabChange = (e, newValue) => this.setState({ tabSelected: newValue })
+//     render() {
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+//         const { tabSelected, monthlyProfit } = this.state
+//         return (
+//             <div>
+//                 <Paper square>
+//                     <Tabs
+//                         value={tabSelected}
+//                         indicatorColor="primary"
+//                         textColor="primary"
+//                         onChange={this.handleTabChange}
+//                         aria-label="disabled tabs example"
+//                     >
+//                         <Tab label="Profit Analysis" {...a11yProps(0)} />
+//                         <Tab label="Weekly Analysis" {...a11yProps(1)} />
+//                     </Tabs>
+//                 </Paper>
+//                 <TabPanel value={tabSelected} index={0}>
+//                     <ProfitAnalysis monthlyProfit={monthlyProfit} />
+//                 </TabPanel>
+//                 <TabPanel value={tabSelected} index={1}>
+//                     <WeeklyAnalysis handleMonthChange={this.handleMonthChange}
+//                         handleItemCheck={this.handleItemCheck}
+//                         handleDateChange={this.handleDateChange}
+//                         handleSubmit={this.handleSubmit}
+//                         {...this.state} />
+//                 </TabPanel>
+//             </div>
+//         )
+//     }
+// }
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`scrollable-prevent-tabpanel-${index}`}
-            aria-labelledby={`scrollable-prevent-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
+// export default Home;
 
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
+// function a11yProps(index) {
+//     return {
+//         id: `scrollable-prevent-tab-${index}`,
+//         'aria-controls': `scrollable-prevent-tabpanel-${index}`,
+//     };
+// }
+
+// function TabPanel(props) {
+//     const { children, value, index, ...other } = props;
+
+//     return (
+//         <div
+//             role="tabpanel"
+//             hidden={value !== index}
+//             id={`scrollable-prevent-tabpanel-${index}`}
+//             aria-labelledby={`scrollable-prevent-tab-${index}`}
+//             {...other}
+//         >
+//             {value === index && (
+//                 <Box p={3}>
+//                     <Typography>{children}</Typography>
+//                 </Box>
+//             )}
+//         </div>
+//     );
+// }
+
+// TabPanel.propTypes = {
+//     children: PropTypes.node,
+//     index: PropTypes.any.isRequired,
+//     value: PropTypes.any.isRequired,
+// };
 
