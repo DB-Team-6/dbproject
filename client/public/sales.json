@@ -1,38 +1,26 @@
 [
-    {
-      "pizzaName": "Classic Pizza",
-      "sold": 891
-    },
-    {
-      "pizzaName": "Neapoli Pizza",
-      "sold": 154
-    },
-    {
-      "pizzaName": "Sicilian Pizza",
-      "sold": 166
-    },
-    {
-      "pizzaName": "Greek Pizza",
-      "sold": 168
-    },
-    {
-      "pizzaName": "Cheese Pizza",
-      "sold": 701
-    },
-    {
-      "pizzaName": "Philly Pizza",
-      "sold": 278
-    },
-    {
-      "pizzaName": "Honolulu Pizza",
-      "sold": 212
-    },
-    {
-      "pizzaName": "Ultimate Pizza",
-      "sold": 403
-    },
-    {
-      "pizzaName": "Spinach Pizza",
-      "sold": 289
-    }
-  ]
+  {
+      "firstName": "John",
+      "profit": 103378
+  },
+  {
+      "firstName": "James",
+      "profit": 23582
+  },
+  {
+      "firstName": "Rick",
+      "profit": 28776
+  },
+  {
+      "firstName": "Morty",
+      "profit": 29179
+  },
+  {
+      "firstName": "Bruce",
+      "profit": 28948
+  },
+  {
+      "firstName": "Jack",
+      "profit": 8632
+  }
+]

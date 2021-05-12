@@ -1,35 +1,43 @@
 import React, { useState } from "react";
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Container } from '@material-ui/core';
 import Home from './Home';
 import Login from './Login';
-// import { styles } from './utils'
-import { withStyles } from '@material-ui/core/styles';
-import { Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import Navbar from './Navbar';
+import { makeStyles } from '@material-ui/core/styles';
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
-
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 export default function App(props) {
+  const [loginStateChange, setLoginStateChange] = useState(null)
 
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const handleLogin = () => {
+    setLoginStateChange(!loginStateChange)
+  }
 
-  const { classes } = props;
   return (
     <Router>
       <Container maxWidth="lg">
-        <Grid  >
-          <Grid >
-            <Typography variant="h4" component="h1" gutterBottom>
-              Pizza Inventory
-          </Typography>
-          </Grid>
+        <Navbar handleLogin={handleLogin} />
+        <Grid>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/login" component={Login} />
-
+            <Route path="/login"
+              render={(props) => (
+                <Login {...props} handleLogin={handleLogin} />
+              )}
+            />
           </Switch>
-          
         </Grid>
       </Container>
     </Router>
