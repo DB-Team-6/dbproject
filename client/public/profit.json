@@ -1,38 +1,38 @@
 [
-    {
-      "pizzaName": "Classic Pizza",
-      "profit": 44550
-    },
-    {
-      "pizzaName": "Neapoli Pizza",
-      "profit": 12320
-    },
-    {
-      "pizzaName": "Sicilian Pizza",
-      "profit": 11952
-    },
-    {
-      "pizzaName": "Greek Pizza",
-      "profit": 10416
-    },
-    {
-      "pizzaName": "Cheese Pizza",
-      "profit": 36452
-    },
-    {
-      "pizzaName": "Philly Pizza",
-      "profit": 15568
-    },
-    {
-      "pizzaName": "Honolulu Pizza",
-      "profit": 6996
-    },
-    {
-      "pizzaName": "Ultimate Pizza",
-      "profit": 51584
-    },
-    {
-      "pizzaName": "Spinach Pizza",
-      "profit": 32657
-    }
-  ]
+  {
+    "pizzaName": "Classic Pizza",
+    "profit": 44550
+  },
+  {
+    "pizzaName": "Neapoli Pizza",
+    "profit": 12320
+  },
+  {
+    "pizzaName": "Sicilian Pizza",
+    "profit": 11952
+  },
+  {
+    "pizzaName": "Greek Pizza",
+    "profit": 10416
+  },
+  {
+    "pizzaName": "Cheese Pizza",
+    "profit": 36452
+  },
+  {
+    "pizzaName": "Philly Pizza",
+    "profit": 15568
+  },
+  {
+    "pizzaName": "Honolulu Pizza",
+    "profit": 6996
+  },
+  {
+    "pizzaName": "Ultimate Pizza",
+    "profit": 51584
+  },
+  {
+    "pizzaName": "Spinach Pizza",
+    "profit": 32657
+  }
+]

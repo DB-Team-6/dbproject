@@ -70,6 +70,7 @@ app.post('/api/login', (req, res) => {
 });
 
 //            Logout
+
 app.get('/api/logout', (req, res) => {
     password = "";
     console.log(req.body)
