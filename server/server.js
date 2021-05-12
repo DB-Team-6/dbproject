@@ -70,8 +70,9 @@ app.post('/api/login', (req, res) => {
 });
 
 //            Logout
-app.post('/api/logout', (req, res) => {
-    password = req.cookies.auth ? "" : "";
+
+app.get('/api/logout', (req, res) => {
+    password = "";
     console.log(req.body)
     res.cookie('auth', password).status(200).json({
         logoutSuccess: true

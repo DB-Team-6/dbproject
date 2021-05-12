@@ -103,6 +103,12 @@ export const Logout = () => {
     }
 }
 
+export const logoutFromApp = () => {
+    axios.get("/api/logout").then(response => {        
+        window.location.href = "/login"
+    })
+}
+
 
 
 
