@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -18,7 +15,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import { loginToApp } from './api';
@@ -62,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Login({ userAuth, handleChange }) {
+export default function Login({ handleLogin }) {
     const history = useHistory();
     const classes = useStyles();
     const [values, setValues] = useState({
@@ -83,12 +79,12 @@ export default function Login({ userAuth, handleChange }) {
         event.preventDefault();
 
         const response = await loginToApp(values.password);
-        console.log(response)
 
         const result = response?.loginSuccess;
         try {
-            document.cookie = `auth=${result}`
             if (result === true) {
+                document.cookie = `auth=true`
+                handleLogin()
                 history.push('/');
             } else {
                 setValues({ ...values, error: true });
@@ -136,7 +132,7 @@ export default function Login({ userAuth, handleChange }) {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="primary"
+                        style={{background: '#E88547'}}
                         className={classes.submit}
                         onClick={handleFormSubmit}
                     >

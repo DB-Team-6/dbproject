@@ -1,27 +1,53 @@
 import axios from 'axios';
 
-const localUrl = 'http://localhost:3000'
-const baseUrl = 'https://db-team-6-test.herokuapp.com/api'
+//const localUrl = 'http://localhost:3000'
+const baseUrl = 'https://db-team-6-test.herokuapp.com'
 
-export const fetchMonthlyProfit = () => {
+// export const fetchMonthlyProfit = () => {
+//     try {
+//         const data = axios.get(`${localUrl}/monthlySales.json`)
+//             .then(response => {
+//                 //console.log("ingrdients->!", response.data)
+//                 return response.data;
+//             })
+//         return data
+//     } catch (error) {
+//         console.log("not passed!", error)
+//     }
+// }
+
+
+export const fetchWeeklyData = (range) => {
+    const request = {
+        "startdate": range[0],
+        "enddate": range[1]
+    }
     try {
-        const data = axios.get(`${localUrl}/monthlySales.json`)
-            .then(response => {
-                //console.log("ingrdients->!", response.data)
-                return response.data;
-            })
+        const url = `${baseUrl}/api/estimate`;
+        const data = axios.post(url, request)
+            .then(response => response.data)
         return data
     } catch (error) {
-        console.log("not passed!", error)
+        console.log(error)
     }
 }
 
-export const fetchWeeklyData = (month, week) => {
+export const fetchPizzaProfit = (range) => {
+    const request = {
+        "startdate": range[0],
+        "enddate": range[1]
+    }
     try {
-        const request = `${localUrl}/${month}/${week}.json`;
-        const data = axios.get(request)
+        //const local = `${localUrl}/profit.json`;
+        const url = `${baseUrl}/api/profit`;
+        const data = axios.post(url, request)
             .then(response => {
-                return response.data;
+                return response.data.map((obj, i) => ({
+                    i:i,
+                    id: obj.pizzaName,
+                    label: obj.pizzaName,
+                    value: obj.profit
+                }))
             })
         return data
     } catch (error) {
@@ -29,13 +55,30 @@ export const fetchWeeklyData = (month, week) => {
     }
 }
 
-export const fetchWeeklyData2 = (range) => {
+export const fetchEmployeeSales = (range) => {
     const request = {
         "startdate": range[0],
         "enddate": range[1]
     }
     try {
-        const url = `/api/estimate/`;
+        //const local = `${localUrl}/employeeSales.json`;
+        const url = `${baseUrl}/api/empsales`;
+        const data = axios.post(url, request)
+            .then(response => {
+                return response.data})
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const loginToApp = (password) => {
+    const request = {
+        "accesscode": password
+    }
+    try {
+        //const local = `${url}/login.json`;
+        const url = `${baseUrl}/api/login/`
         const data = axios.post(url, request)
             .then(response => {
                 return response.data;
@@ -46,16 +89,13 @@ export const fetchWeeklyData2 = (range) => {
     }
 }
 
-export const loginToApp = (password) => {
-    const request = { 
-        "accesscode": password 
-    }
+export const Logout = () => {
     try {
-        const url = `/api/login/`
-        const localurl = `${localUrl}/login.json`;
-        const data = axios.get(localurl, request)
+        //const local = `${localUrl}/logout.json`;
+        const url = `${baseUrl}/api/logout/`
+        const data = axios.get(url)
             .then(response => {
-                    return response.data;
+                return response.data;
             })
         return data
     } catch (error) {

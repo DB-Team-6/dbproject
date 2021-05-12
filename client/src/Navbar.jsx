@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Button, Toolbar, Typography, AppBar, Grid, Container, Grow } from '@material-ui/core';
+import React from "react";
+import { Button, Toolbar, Typography, AppBar } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { Logout } from './api';
+import { getCookie } from './utils'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,30 +17,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Navbar() {
+export default function Navbar({ handleLogin }) {
     const history = useHistory();
-    let cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('auth='))
-        .split('=')[1];
-
-    const logout = () => {
-        document.cookies = 'auth=false'
-        history.push('/login');
-        if (document.cookies)
-            console.log(document.cookies)
-            console.log("cookievalue",cookieValue)
-        
+    const loggedin = getCookie("auth")
+    const logOut = async () => {
+        const response = await Logout();
+        const result = response?.logoutSuccess;
+        try {
+            if (result === true) {
+                document.cookie = `auth=false`
+                handleLogin()
+                history.push('/login');
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
-        <AppBar position="static">
+        <AppBar style={{background: '#162748'}} position="sticky">
             <Toolbar>
-                <Typography component={Link} to="/" style={{ flexGrow: 1 }} variant="h5" component="h1" gutterBottom>
+                <Typography style={{ flexGrow: 1 }} variant="h5" component="h1" gutterBottom>
                     Inventory Monitor
-            </Typography>
-                {cookieValue === 'true' ? (<Button variant="contained" color="inherit" onClick={logout}>Logout</Button>)
-                    : (<Button component={Link} to="/login" color="inherit">Login</Button>)
+                </Typography>
+                {loggedin === 'true'
+                    ? <Button variant="contained" style={{background: '#E88547'}} onClick={logOut}>Logout</Button>
+                    : (window.location.href).includes("login")
+                        ? null
+                        : <Button component={Link} to="/login" style={{background: '#E88547'}}>Login</Button>
                 }
             </Toolbar>
         </AppBar>
