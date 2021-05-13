@@ -16,13 +16,17 @@ class Home extends React.Component {
         chartedList: undefined,
         dateSelection: [null, null],
         employeeSalesData: undefined,
-        pizzaProfitData: undefined
+        pizzaProfitData: undefined,
+        loading: false
     }
 
     // async componentDidMount() {
 
     // }
 
+    toggleLoading = () =>{ 
+        this.setState({loading: !this.state.loading })
+    }
     handleItemCheck = (event) => {
         const enabledItemsObject = { ...this.state.enabledItemsObject, [event.target.name]: event.target.checked }
         this.setState({
@@ -63,7 +67,8 @@ class Home extends React.Component {
                 enabledItemsObject: enabledItemsObject,
                 chartedList: sortedfetchedData.filter(d => enabledItemsObject[d.ingredient] === true),
                 employeeSalesData: fetchEmployeeSalesData,
-                pizzaProfitData: fetchPizzaProfitData
+                pizzaProfitData: fetchPizzaProfitData,
+                loading: false
             })
         }
     }
@@ -76,6 +81,7 @@ class Home extends React.Component {
                         handleItemCheck={this.handleItemCheck}
                         handleDateChange={this.handleDateChange}
                         handleSubmit={this.handleSubmit}
+                        toggleLoading={this.toggleLoading}
                         {...this.state} />
                 </Container>
             </Grow>
