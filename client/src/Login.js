@@ -106,7 +106,7 @@ export default function Login({ handleLogin }) {
                 </Typography>
 
                 <FormControl className={classes.form} variant="outlined">
-                    <InputLabel htmlFor="password">Accesscode</InputLabel>
+                    <InputLabel htmlFor="password">Access code</InputLabel>
                     <OutlinedInput
                         className={classes.textField}
                         id="password"
@@ -146,7 +146,7 @@ export default function Login({ handleLogin }) {
                 <Copyright />
             </Box>
             {(values.error)
-                ? <Alert severity="error">Access denied! Incorrect password</Alert>
+                ? <Alert severity="error">Access denied! Incorrect access code</Alert>
                 : null}
         </Container>
 
