@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import DateRangePicker from '@material-ui/lab/DateRangePicker';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import {CircularProgress, Backdrop } from '@material-ui/core';
 
 // function getYearBefore(date, amount) {
 //     return date ? subYears(date, amount) : undefined;
@@ -52,11 +53,20 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
         justifyContent: 'center'
     },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+      },
 }));
 
-export default function DateRangeSelector({ handleDateChange, handleSubmit, dateSelection }) {
+export default function DateRangeSelector({ handleDateChange, handleSubmit, dateSelection, toggleLoading, loading }) {
     const classes = useStyles();
     const [popperOpen, setPopperOpen] = useState(false)
+
+    const onClick = (event) => {
+        toggleLoading()
+        handleSubmit(event);
+    }
 
     return (
         <div className={classes.root}>
@@ -85,7 +95,7 @@ export default function DateRangeSelector({ handleDateChange, handleSubmit, date
                             // mask='__/__/____'
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
-                                    <TextField {...startProps} size="small" variant="standard" style={{marginRight: 10}} />
+                                    <TextField {...startProps} size="small" variant="standard" style={{ marginRight: 10 }} />
                                     <TextField {...endProps} size="small" variant="standard" />
                                 </React.Fragment>
                             )}
@@ -95,10 +105,14 @@ export default function DateRangeSelector({ handleDateChange, handleSubmit, date
                         <EventIcon />
                     </IconButton>
                     <Divider className={classes.divider} orientation="vertical" />
-                    <IconButton onClick={handleSubmit} className={classes.iconButton} aria-label="search">
+                    <IconButton onClick={onClick} className={classes.iconButton} aria-label="search">
                         <SearchIcon />
                     </IconButton>
+                    <Backdrop className={classes.backdrop} open={loading}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
                 </Paper>
+
 
             </Grid>
         </div>

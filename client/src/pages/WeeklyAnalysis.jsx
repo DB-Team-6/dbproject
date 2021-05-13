@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function WeeklyAnalysis({ handleItemCheck,handleDateChange, 
-  handleSubmit, employeeSalesData, weeklyData, dateSelection,
+export default function WeeklyAnalysis({ handleItemCheck, handleDateChange, toggleLoading,
+  handleSubmit, employeeSalesData, weeklyData, dateSelection, loading,
   enabledItemsObject, chartedList, pizzaProfitData }) {
 
   const history = useHistory();
@@ -46,7 +46,12 @@ export default function WeeklyAnalysis({ handleItemCheck,handleDateChange,
         <Grid container spacing={3}>
           <Grid item xs={5}>
             <Box className={classes.paper}>
-              <DateRangeSelector handleDateChange={handleDateChange} handleSubmit={handleSubmit} dateSelection={dateSelection} />
+              <DateRangeSelector
+                handleDateChange={handleDateChange}
+                handleSubmit={handleSubmit}
+                dateSelection={dateSelection}
+                toggleLoading={toggleLoading}
+                loading={loading} />
             </Box>
           </Grid>
           <Grid item xs={8}>
